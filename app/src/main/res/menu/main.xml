@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/sort_popular"
+        android:icon="@drawable/ic_action_whatshot"
+        android:title="sort popular"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/sort_top_rated"
+        android:icon="@drawable/ic_action_poll"
+        android:title="sort top rated"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+</menu>

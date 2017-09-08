@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- Preference items -->
+    <string name="pref_sort_method_key">SORT_METHOD</string>
+    <string name="pref_sort_top_rated">SORT_TOP_RATED</string>
+    <string name="pref_sort_popular">SORT_POPULAR</string>
+
+    <string name="tmdb_sort_popular">popular</string>
+    <string name="tmdb_sort_top_rated">top_rated</string>
+
+    <string name="saved_movie_state">SAVED_MOVIE_STATE</string>
+    <string name="saved_movie_list">SAVED_MOVIE_LIST</string>
+
+    <string name="parcel_movie">PARCEL_MOVIE</string>
+
+    <string name="description_movie_poster">Contains poster of movie</string>
+    <string name="heading_release_date">Release Date</string>
+    <string name="example_original_title">The Green Poster Man</string>
+    <string name="example_release_date">08–31–2015</string>
+    <string name="example_vote_average">8.2/10</string>
+    <string name="example_overview">A green, disconcerted, man takes on the mafia in underground North Korea to save his ferret. He\'ll find a lot of challenges, horror and romance on his journey. Who knows? Maybe Kim Jung-un makes a cameo appearance?</string>
+    <string name="heading_vote_average">Vote Average</string>
+
+    <string name="no_release_date_found">No release date found</string>
+    <string name="no_summary_found">No summary was found</string>
+
+</resources>
