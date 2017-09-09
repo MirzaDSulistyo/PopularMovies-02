@@ -1,6 +1,5 @@
 package id.garnish.android.popularmovies.ui.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +14,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final static String TAG = ReviewAdapter.class.getSimpleName();
 
     private Review[] reviews;
-    private Context context;
 
-    private ListItemClickListener listItemClickListener;
-
-    public interface ListItemClickListener {
-        void onListItemClick(Review[] reviews, int clickedItemIndex);
-    }
-
-    public ReviewAdapter(Context context, Review[] reviews, ListItemClickListener listItemClickListener) {
-        this.context = context;
+    public ReviewAdapter(Review[] reviews) {
         this.reviews = reviews;
-        this.listItemClickListener = listItemClickListener;
     }
 
     @Override
