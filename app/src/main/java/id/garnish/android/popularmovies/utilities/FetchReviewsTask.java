@@ -24,9 +24,9 @@ public class FetchReviewsTask extends AsyncTask<String, Void, Review[]> {
 
     private final String apiKey;
 
-    private AsyncTaskCompleteListener taskCompleteListener;
+    private MovieTaskCompleteListener taskCompleteListener;
 
-    public FetchReviewsTask(AsyncTaskCompleteListener taskCompleteListener, String apiKey) {
+    public FetchReviewsTask(MovieTaskCompleteListener taskCompleteListener, String apiKey) {
         this.taskCompleteListener = taskCompleteListener;
         this.apiKey = apiKey;
     }

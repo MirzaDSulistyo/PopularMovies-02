@@ -3,7 +3,6 @@ package id.garnish.android.popularmovies.utilities;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import id.garnish.android.popularmovies.models.Movie;
-import id.garnish.android.popularmovies.ui.activities.MainActivity;
 
 public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
 
@@ -26,9 +24,9 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
 
     private final String apiKey;
 
-    private final AsyncTaskCompleteListener taskCompleteListener;
+    private final MovieTaskCompleteListener taskCompleteListener;
 
-    public FetchMovieTask(AsyncTaskCompleteListener taskCompleteListener, String apiKey) {
+    public FetchMovieTask(MovieTaskCompleteListener taskCompleteListener, String apiKey) {
         this.taskCompleteListener = taskCompleteListener;
         this.apiKey = apiKey;
     }

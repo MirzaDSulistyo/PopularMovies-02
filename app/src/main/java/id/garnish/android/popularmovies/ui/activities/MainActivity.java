@@ -24,7 +24,7 @@ import id.garnish.android.popularmovies.BuildConfig;
 import id.garnish.android.popularmovies.R;
 import id.garnish.android.popularmovies.models.Movie;
 import id.garnish.android.popularmovies.ui.adapters.MovieAdapter;
-import id.garnish.android.popularmovies.utilities.AsyncTaskCompleteListener;
+import id.garnish.android.popularmovies.utilities.MovieTaskCompleteListener;
 import id.garnish.android.popularmovies.utilities.FetchMovieTask;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     private void getMoviesFromTMDb(String sortMethod) {
         if (isNetworkAvailable()) {
-            AsyncTaskCompleteListener taskCompleteListener = new AsyncTaskCompleteListener() {
+            MovieTaskCompleteListener taskCompleteListener = new MovieTaskCompleteListener() {
                 @Override
                 public void onAsyncTaskCompleted(Movie[] movies) {
                     loadingBar.setVisibility(View.GONE);

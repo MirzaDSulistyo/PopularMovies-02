@@ -1,4 +1,7 @@
 package id.garnish.android.popularmovies.utilities;
 
-public class TrailerTaskCompleteListener {
+import id.garnish.android.popularmovies.models.Trailer;
+
+public interface TrailerTaskCompleteListener {
+    void onTrailerTaskCompleted(Trailer[] trailers);
 }

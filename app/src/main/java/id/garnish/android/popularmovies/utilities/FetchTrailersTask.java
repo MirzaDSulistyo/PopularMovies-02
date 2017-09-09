@@ -24,9 +24,9 @@ public class FetchTrailersTask extends AsyncTask<String, Void, Trailer[]> {
 
     private final String apiKey;
 
-    private AsyncTaskCompleteListener taskCompleteListener;
+    private MovieTaskCompleteListener taskCompleteListener;
 
-    public FetchTrailersTask(AsyncTaskCompleteListener taskCompleteListener, String apiKey) {
+    public FetchTrailersTask(MovieTaskCompleteListener taskCompleteListener, String apiKey) {
         this.taskCompleteListener = taskCompleteListener;
         this.apiKey = apiKey;
     }
