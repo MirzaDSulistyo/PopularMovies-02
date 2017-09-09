@@ -102,49 +102,55 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
-                android:text="Trailers"
+                android:text="@string/trailers"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/trailersRecyclerView"
+                android:id="@+id/trailers_recycler_view"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/noTrailerView"
+                android:id="@+id/no_trailer_view"
                 android:textSize="20sp"
-                android:text="No Trailers Available"
+                android:text="@string/no_trailers_available"
                 android:visibility="invisible"
                 android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="10dp"
-                android:text="Reviews"
+                android:text="@string/reviews"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/reviewsRecyclerView"
+                android:id="@+id/reviews_recycler_view"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/noReview"
+                android:id="@+id/no_review"
                 android:textSize="20sp"
                 android:paddingLeft="15dp"
-                android:text="No Reviews Available"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/no_reviews_available"
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
