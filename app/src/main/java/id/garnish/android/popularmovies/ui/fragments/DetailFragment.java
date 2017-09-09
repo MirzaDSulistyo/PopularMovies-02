@@ -17,6 +17,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,6 +52,8 @@ import id.garnish.android.popularmovies.utilities.TrailerTaskCompleteListener;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment implements TrailerAdapter.ListItemClickListener, ReviewAdapter.ListItemCLickListener {
+
+    private static final String TAG = DetailFragment.class.getSimpleName();
 
     @BindView(R.id.textview_original_title)
     TextView tvOriginalTitle;
@@ -127,10 +130,8 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
 
         tvOriginalTitle.setText(movie.getOriginalTitle());
 
-        String imageUrl = getString(R.string.arg_image_url) + "/w342" + movie.getPosterPath() + "?api_key?=" + BuildConfig.TMDB_API_KEY;
-
         Picasso.with(getContext())
-                .load(movie.getPosterPath())
+                .load(getString(R.string.arg_image_url) + "/w342" + movie.getPosterPath() + "?api_key=" + BuildConfig.TMDB_API_KEY)
                 .error(R.drawable.not_found)
                 .placeholder(R.drawable.searching)
                 .into(ivPoster);

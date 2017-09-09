@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import id.garnish.android.popularmovies.BuildConfig;
 import id.garnish.android.popularmovies.R;
 import id.garnish.android.popularmovies.models.Movie;
 
@@ -62,9 +63,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         String imageUrl = movie.getPosterPath();
 
         if (!imageUrl.equals("")) {
-            Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
             Picasso.with(context)
-                    .load(builtUri)
+                    .load(context.getString(R.string.arg_image_url) + "/w342" + movie.getPosterPath() + "?api_key=" + BuildConfig.TMDB_API_KEY)
                     .error(R.drawable.not_found)
                     .placeholder(R.drawable.searching)
                     .into(movieViewHolder.poster);
