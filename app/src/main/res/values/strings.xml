@@ -40,4 +40,6 @@
     <string name="no_trailers_available">No Trailers Available</string>
     <string name="no_reviews_available">No Reviews Available</string>
 
+    <string name="undo">UNDO</string>
+
 </resources>
