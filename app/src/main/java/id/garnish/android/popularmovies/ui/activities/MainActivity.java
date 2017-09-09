@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     Movie[] mMovies;
 
-    private Menu menu;
-
     Parcelable movieState;
-
-    String SORT_BY = "POPULAR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,19 +124,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         switch (item.getItemId()) {
             case R.id.action_sort_by_popularity :
                 updateSharedPrefs(getString(R.string.tmdb_sort_popular));
-//                updateMenu(menu);
                 getMoviesFromTMDb(getSortMethod());
-                return true;
+                break;
             case R.id.action_sort_by_rating :
                 updateSharedPrefs(getString(R.string.tmdb_sort_top_rated));
-//                updateMenu(menu);
                 getMoviesFromTMDb(getSortMethod());
-                return true;
+                break;
             case R.id.action_sort_by_favorite :
                 updateSharedPrefs(getString(R.string.tmdb_sort_favorite));
                 getSupportLoaderManager().initLoader(FAVORITE_MOVIES_LOADER, null, this);
-                return true;
+                break;
         }
+        item.setChecked(true);
         return super.onOptionsItemSelected(item);
     }
 
@@ -151,18 +146,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-//    private void updateMenu(Menu menu) {
-//        String sortMethod = getSortMethod();
-//
-//        if (sortMethod.equals(getString(R.string.tmdb_sort_popular))) {
-//            menu.findItem(R.id.sort_popular).setVisible(false);
-//            menu.findItem(R.id.sort_top_rated).setVisible(true);
-//        } else {
-//            menu.findItem(R.id.sort_popular).setVisible(true);
-//            menu.findItem(R.id.sort_top_rated).setVisible(false);
-//        }
-//    }
 
     private void getMoviesFromTMDb(String sortMethod) {
         if (isNetworkAvailable()) {
