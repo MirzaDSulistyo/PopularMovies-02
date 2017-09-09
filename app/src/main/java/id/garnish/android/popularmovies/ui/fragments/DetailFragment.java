@@ -45,7 +45,7 @@ import id.garnish.android.popularmovies.utilities.TrailerTaskCompleteListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment implements TrailerAdapter.ListItemClickListener {
+public class DetailFragment extends Fragment implements TrailerAdapter.ListItemClickListener, ReviewAdapter.ListItemCLickListener {
 
     @BindView(R.id.textview_original_title)
     TextView tvOriginalTitle;
@@ -154,7 +154,7 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
                     = new ReviewTaskCompleteListener() {
                 @Override
                 public void onReviewTaskCompleted(Review[] reviews) {
-                    reviewsRecyclerView.setAdapter(new ReviewAdapter(reviews));
+                    reviewsRecyclerView.setAdapter(new ReviewAdapter(reviews, DetailFragment.this));
                     if (reviews.length == 0) {
                         reviewsRecyclerView.setVisibility(View.INVISIBLE);
                         tvNoReview.setVisibility(View.VISIBLE);
@@ -199,5 +199,14 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onListItemClick(Review[] mReviews, int clickedItemIndex) {
+        Review review = mReviews[clickedItemIndex];
+        String url = review.getUrl();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 }

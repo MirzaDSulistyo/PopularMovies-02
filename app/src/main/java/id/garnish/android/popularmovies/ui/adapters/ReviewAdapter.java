@@ -15,8 +15,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private Review[] reviews;
 
-    public ReviewAdapter(Review[] reviews) {
+    private ListItemCLickListener listItemCLickListener;
+
+    public interface ListItemCLickListener {
+        void onListItemClick(Review[] mReviews, int clickedItemIndex);
+    }
+
+    public ReviewAdapter(Review[] reviews, ListItemCLickListener listItemCLickListener) {
         this.reviews = reviews;
+        this.listItemCLickListener = listItemCLickListener;
     }
 
     @Override
@@ -49,7 +56,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         reviewViewHolder.textViewReview.setText(review.getContent());
     }
 
-    private class ReviewViewHolder extends RecyclerView.ViewHolder {
+    private class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textViewAuthor;
         TextView textViewReview;
@@ -59,6 +66,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             textViewAuthor = (TextView) itemView.findViewById(R.id.author_text);
             textViewReview = (TextView) itemView.findViewById(R.id.review_text);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            listItemCLickListener.onListItemClick(reviews, clickedPosition);
         }
     }
 }
