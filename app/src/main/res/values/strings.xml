@@ -27,4 +27,9 @@
 
     <string name="arg_image_url">http://image.tmdb.org/t/p</string>
 
+    <string name="reviews">Reviews</string>
+    <string name="trailers">Trailers</string>
+    <string name="no_trailers_available">No Trailers Available</string>
+    <string name="no_reviews_available">No Reviews Available</string>
+
 </resources>
