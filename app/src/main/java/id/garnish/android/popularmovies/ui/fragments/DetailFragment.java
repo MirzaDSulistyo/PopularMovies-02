@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -82,6 +83,9 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
     ReviewAdapter reviewAdapter;
     TrailerAdapter trailerAdapter;
 
+    Parcelable savedReviewsState;
+    Parcelable savedTrailersState;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -112,7 +116,33 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
             if (movie != null) {
                 getDataFromTMDb(movie.getId());
             }
-        } // TODO : else : get savedInstanceState
+        } else {
+            movie = savedInstanceState.getParcelable(getString(R.string.saved_movie_list));
+            savedReviewsState = savedInstanceState.getParcelable(getString(R.string.saved_reviews_state));
+            savedTrailersState = savedInstanceState.getParcelable(getString(R.string.saved_trailers_state));
+
+            Parcelable[] reviews = savedInstanceState.getParcelableArray(getString(R.string.saved_reviews_list));
+            if (reviews != null) {
+                int numReviewObjects = reviews.length;
+                Review[] reviewList = new Review[numReviewObjects];
+                for (int i = 0; i < numReviewObjects; i++) {
+                    reviewList[i] = (Review) reviews[i];
+                }
+                reviewArray = reviewList;
+                reviewsRecyclerView.setAdapter(new ReviewAdapter(reviewList, DetailFragment.this));
+            }
+
+            Parcelable[] trailers = savedInstanceState.getParcelableArray(getString(R.string.saved_trailers_list));
+            if (trailers != null) {
+                int numTrailerObjects = trailers.length;
+                Trailer[] trailerList = new Trailer[numTrailerObjects];
+                for (int i = 0; i < numTrailerObjects; i++) {
+                    trailerList[i] = (Trailer) trailers[i];
+                }
+                trailerArray = trailerList;
+                trailersRecyclerView.setAdapter(new TrailerAdapter(getContext(), trailerList, DetailFragment.this));
+            }
+        }
 
         LinearLayoutManager trailerLayoutManager
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -158,6 +188,30 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
             releaseDate = getString(R.string.no_release_date_found);
         }
         tvReleaseDate.setText(releaseDate);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(getString(R.string.saved_movie_list), movie);
+        outState.putParcelable(getString(R.string.saved_reviews_state), reviewsRecyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putParcelable(getString(R.string.saved_trailers_state), trailersRecyclerView.getLayoutManager().onSaveInstanceState());
+
+        outState.putParcelableArray(getString(R.string.saved_reviews_list), reviewArray);
+        outState.putParcelableArray(getString(R.string.saved_trailers_list), trailerArray);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (savedReviewsState != null) {
+            reviewsRecyclerView.getLayoutManager().onRestoreInstanceState(savedReviewsState);
+        }
+
+        if (savedTrailersState != null) {
+            trailersRecyclerView.getLayoutManager().onRestoreInstanceState(savedTrailersState);
+        }
     }
 
     @Override

@@ -14,8 +14,13 @@
 
     <string name="saved_movie_state">SAVED_MOVIE_STATE</string>
     <string name="saved_movie_list">SAVED_MOVIE_LIST</string>
+    <string name="saved_trailers_list">SAVED_TRAILERS_LIST</string>
+    <string name="saved_reviews_list">SAVED_REVIEWS_LIST</string>
 
     <string name="parcel_movie">PARCEL_MOVIE</string>
+
+    <string name="saved_reviews_state">SAVED_REVIEWS_STATE</string>
+    <string name="saved_trailers_state">SAVED_TRAILERS_STATE</string>
 
     <string name="description_movie_poster">Contains poster of movie</string>
     <string name="heading_release_date">Release Date</string>
