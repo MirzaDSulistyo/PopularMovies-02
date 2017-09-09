@@ -136,8 +136,10 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
         final String TAG_OVERVIEW = "overview";
         final String TAG_VOTE_AVERAGE = "vote_average";
         final String TAG_RELEASE_DATE = "release_date";
+        final String TAG_BACKDROP_PATH = "backdrop_path";
+        final String TAG_ID = "id";
 
-        // Get the array containing hte movies found
+        // Get the array containing the movies found
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray resultsArray = moviesJson.getJSONArray(TAG_RESULTS);
 
@@ -158,6 +160,8 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
             movies[i].setOverview(movieInfo.getString(TAG_OVERVIEW));
             movies[i].setVoteAverage(movieInfo.getDouble(TAG_VOTE_AVERAGE));
             movies[i].setReleaseDate(movieInfo.getString(TAG_RELEASE_DATE));
+            movies[i].setBackdropPath(movieInfo.getString(TAG_BACKDROP_PATH));
+            movies[i].setId(movieInfo.getString(TAG_ID));
         }
 
         return movies;

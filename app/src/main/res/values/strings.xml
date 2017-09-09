@@ -25,4 +25,9 @@
     <string name="no_release_date_found">No release date found</string>
     <string name="no_summary_found">No summary was found</string>
 
+    <string name="arg_image_url">http://image.tmdb.org/t/p</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
