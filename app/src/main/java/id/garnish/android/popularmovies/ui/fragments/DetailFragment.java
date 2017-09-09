@@ -66,12 +66,6 @@ public class DetailFragment extends Fragment {
 
     Movie movie;
 
-    Trailer[] trailers;
-    Review[] reviews;
-
-    TrailerAdapter trailerAdapter;
-    ReviewAdapter reviewAdapter;
-
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -111,12 +105,6 @@ public class DetailFragment extends Fragment {
 
         trailersRecyclerView.setLayoutManager(trailerLayoutManager);
         reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
-
-//        reviewAdapter = new ReviewAdapter(reviews);
-//        trailerAdapter = new TrailerAdapter(getContext(), trailers);
-
-//        reviewsRecyclerView.setAdapter(reviewAdapter);
-//        trailersRecyclerView.setAdapter(trailerAdapter);
 
         tvOriginalTitle.setText(movie.getOriginalTitle());
 
@@ -165,6 +153,10 @@ public class DetailFragment extends Fragment {
                 @Override
                 public void onReviewTaskCompleted(Review[] reviews) {
                     reviewsRecyclerView.setAdapter(new ReviewAdapter(reviews));
+                    if (reviews.length == 0) {
+                        reviewsRecyclerView.setVisibility(View.INVISIBLE);
+                        tvNoReview.setVisibility(View.VISIBLE);
+                    }
                 }
             };
 
@@ -173,6 +165,10 @@ public class DetailFragment extends Fragment {
                 @Override
                 public void onTrailerTaskCompleted(Trailer[] trailers) {
                     trailersRecyclerView.setAdapter(new TrailerAdapter(getContext(), trailers));
+                    if (trailers.length == 0) {
+                        trailersRecyclerView.setVisibility(View.INVISIBLE);
+                        tvNoTrailer.setVisibility(View.VISIBLE);
+                    }
                 }
             };
             FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(reviewTaskCompleteListener, BuildConfig.TMDB_API_KEY);
