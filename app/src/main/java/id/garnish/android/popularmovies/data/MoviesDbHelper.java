@@ -24,7 +24,7 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
                 FavoriteListEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 FavoriteListEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
                 FavoriteListEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
-                FavoriteListEntry.COLUMN_VOTE_AVERAGE + " FLOAT NOT NULL, " +
+                FavoriteListEntry.COLUMN_VOTE_AVERAGE + " DOUBLE NOT NULL, " +
                 FavoriteListEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL, " +
                 FavoriteListEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL" +
                 "); ";

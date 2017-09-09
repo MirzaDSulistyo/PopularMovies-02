@@ -2,12 +2,15 @@ package id.garnish.android.popularmovies.ui.fragments;
 
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.garnish.android.popularmovies.BuildConfig;
 import id.garnish.android.popularmovies.R;
+import id.garnish.android.popularmovies.data.MoviesContract;
 import id.garnish.android.popularmovies.models.Movie;
 import id.garnish.android.popularmovies.models.Review;
 import id.garnish.android.popularmovies.models.Trailer;
@@ -68,6 +73,12 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
 
     Movie movie;
 
+    Review[] reviewArray;
+    Trailer[] trailerArray;
+
+    ReviewAdapter reviewAdapter;
+    TrailerAdapter trailerAdapter;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -82,7 +93,7 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
         if (savedInstanceState == null) {
@@ -108,7 +119,15 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
         trailersRecyclerView.setLayoutManager(trailerLayoutManager);
         reviewsRecyclerView.setLayoutManager(reviewLayoutManager);
 
+        reviewAdapter = new ReviewAdapter(reviewArray, DetailFragment.this);
+        trailerAdapter = new TrailerAdapter(getContext(), trailerArray, DetailFragment.this);
+
+        reviewsRecyclerView.setAdapter(reviewAdapter);
+        trailersRecyclerView.setAdapter(trailerAdapter);
+
         tvOriginalTitle.setText(movie.getOriginalTitle());
+
+        String imageUrl = getString(R.string.arg_image_url) + "/w342" + movie.getPosterPath() + "?api_key?=" + BuildConfig.TMDB_API_KEY;
 
         Picasso.with(getContext())
                 .load(movie.getPosterPath())
@@ -146,6 +165,98 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
         menu.findItem(R.id.share).setVisible(true);
         MenuItem item = menu.findItem(R.id.fav);
         item.setVisible(true);
+        item.setIcon(!isFavorite() ? R.drawable.fav_remove : R.drawable.fav_add);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, movie.getOriginalTitle());
+                intent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=".concat(trailerArray[0].getKey()));
+                startActivity(Intent.createChooser(intent, "Share Trailer!"));
+                break;
+            case R.id.fav:
+
+                if (!isFavorite()) {
+                    // add to favorite
+                    item.setIcon(R.drawable.fav_add);
+                    addFavorites();
+                } else {
+                    // remove from favorite
+                    item.setIcon(R.drawable.fav_remove);
+                    removeFromFavorites();
+                }
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isFavorite() {
+
+        Cursor movieCursor = getContext().getContentResolver().query(
+                MoviesContract.FavoriteListEntry.CONTENT_URI,
+                new String[]{MoviesContract.FavoriteListEntry.COLUMN_MOVIE_ID},
+                MoviesContract.FavoriteListEntry.COLUMN_MOVIE_ID + " = " + movie.getId(),
+                null,
+                null );
+
+        if (movieCursor != null && movieCursor.moveToFirst()) {
+            movieCursor.close();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void addFavorites() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (!isFavorite()) {
+                    ContentValues movieValues = new ContentValues();
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_MOVIE_ID, movie.getId());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_TITLE, movie.getOriginalTitle());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_OVERVIEW, movie.getOverview());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+                    movieValues.put(MoviesContract.FavoriteListEntry.COLUMN_BACKDROP_PATH, movie.getBackdropPath());
+
+                    getContext().getContentResolver().insert(
+                            MoviesContract.FavoriteListEntry.CONTENT_URI,
+                            movieValues
+                    );
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Toast.makeText(getContext(), "Success add favorite", Toast.LENGTH_SHORT).show();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void removeFromFavorites() {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (isFavorite()) {
+                    getContext().getContentResolver().delete(MoviesContract.FavoriteListEntry.CONTENT_URI,
+                            MoviesContract.FavoriteListEntry.COLUMN_MOVIE_ID + " = " + movie.getId(), null);
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void getDataFromTMDb(String id) {
@@ -155,6 +266,15 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
                 @Override
                 public void onReviewTaskCompleted(Review[] reviews) {
                     reviewsRecyclerView.setAdapter(new ReviewAdapter(reviews, DetailFragment.this));
+                    reviewArray = new Review[reviews.length];
+                    for (int i = 0; i < reviews.length; i++) {
+                        reviewArray[i] = new Review();
+
+                        reviewArray[i].setId(reviews[i].getId());
+                        reviewArray[i].setUrl(reviews[i].getUrl());
+                        reviewArray[i].setContent(reviews[i].getContent());
+                        reviewArray[i].setAuthor(reviews[i].getAuthor());
+                    }
                     if (reviews.length == 0) {
                         reviewsRecyclerView.setVisibility(View.INVISIBLE);
                         tvNoReview.setVisibility(View.VISIBLE);
@@ -167,6 +287,13 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
                 @Override
                 public void onTrailerTaskCompleted(Trailer[] trailers) {
                     trailersRecyclerView.setAdapter(new TrailerAdapter(getContext(), trailers, DetailFragment.this));
+                    trailerArray = new Trailer[trailers.length];
+                    for (int i = 0; i < trailers.length; i++) {
+                        trailerArray[i] = new Trailer();
+
+                        trailerArray[i].setId(trailers[i].getId());
+                        trailerArray[i].setKey(trailers[i].getKey());
+                    }
                     if (trailers.length == 0) {
                         trailersRecyclerView.setVisibility(View.INVISIBLE);
                         tvNoTrailer.setVisibility(View.VISIBLE);

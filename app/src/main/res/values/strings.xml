@@ -10,6 +10,7 @@
 
     <string name="tmdb_sort_popular">popular</string>
     <string name="tmdb_sort_top_rated">top_rated</string>
+    <string name="tmdb_sort_favorite">favorite</string>
 
     <string name="saved_movie_state">SAVED_MOVIE_STATE</string>
     <string name="saved_movie_list">SAVED_MOVIE_LIST</string>

@@ -2,15 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/sort_popular"
-        android:icon="@drawable/ic_action_whatshot"
-        android:title="sort popular"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/sort_top_rated"
-        android:icon="@drawable/ic_action_poll"
-        android:title="sort top rated"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_sort_by"
+        android:icon="@drawable/sort"
+        android:title="Sort By"
+        app:showAsAction="ifRoom" >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/action_sort_by_popularity"
+                    android:title="Popularity" />
+                <item android:id="@+id/action_sort_by_rating"
+                    android:title="Highest rated" />
+                <item android:id="@+id/action_sort_by_favorite"
+                    android:title="Favorites" />
+            </group>
+        </menu>
+    </item>
 
 </menu>
