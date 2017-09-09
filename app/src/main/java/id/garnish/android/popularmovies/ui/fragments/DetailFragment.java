@@ -87,6 +87,8 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
     Parcelable savedReviewsState;
     Parcelable savedTrailersState;
 
+    Menu menu;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -218,6 +220,7 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        this.menu = menu;
         menu.findItem(R.id.share).setVisible(true);
         MenuItem item = menu.findItem(R.id.fav);
         item.setVisible(true);
@@ -322,6 +325,7 @@ public class DetailFragment extends Fragment implements TrailerAdapter.ListItemC
         @Override
         public void onClick(View v) {
             removeFromFavorites();
+            menu.findItem(R.id.fav).setIcon(R.drawable.fav_remove);
         }
     }
 
