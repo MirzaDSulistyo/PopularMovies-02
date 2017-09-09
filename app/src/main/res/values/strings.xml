@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
+    <string name="title_movie_detail">Movie Detail</string>
+
     <!-- Preference items -->
     <string name="pref_sort_method_key">SORT_METHOD</string>
     <string name="pref_sort_top_rated">SORT_TOP_RATED</string>
