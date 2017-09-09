@@ -19,9 +19,16 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Trailer[] trailers;
     private Context context;
 
-    public TrailerAdapter(Context context, Trailer[] trailers) {
+    private ListItemClickListener listItemClickListener;
+
+    public interface ListItemClickListener {
+        void onListItemClick(Trailer[] mTrailers, int clickedItemIndex);
+    }
+
+    public TrailerAdapter(Context context, Trailer[] trailers, ListItemClickListener listItemClickListener) {
         this.context = context;
         this.trailers = trailers;
+        this.listItemClickListener = listItemClickListener;
     }
 
     @Override
@@ -60,7 +67,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .into(trailerViewHolder.trailerImage);
     }
 
-    private class TrailerViewHolder extends RecyclerView.ViewHolder {
+    private class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView trailerImage;
 
@@ -68,6 +75,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
 
             trailerImage = (ImageView) itemView.findViewById(R.id.trailer_image);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            listItemClickListener.onListItemClick(trailers, clickedPosition);
         }
     }
 }

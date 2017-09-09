@@ -3,9 +3,11 @@ package id.garnish.android.popularmovies.ui.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -43,7 +45,7 @@ import id.garnish.android.popularmovies.utilities.TrailerTaskCompleteListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements TrailerAdapter.ListItemClickListener {
 
     @BindView(R.id.textview_original_title)
     TextView tvOriginalTitle;
@@ -164,7 +166,7 @@ public class DetailFragment extends Fragment {
                     = new TrailerTaskCompleteListener() {
                 @Override
                 public void onTrailerTaskCompleted(Trailer[] trailers) {
-                    trailersRecyclerView.setAdapter(new TrailerAdapter(getContext(), trailers));
+                    trailersRecyclerView.setAdapter(new TrailerAdapter(getContext(), trailers, DetailFragment.this));
                     if (trailers.length == 0) {
                         trailersRecyclerView.setVisibility(View.INVISIBLE);
                         tvNoTrailer.setVisibility(View.VISIBLE);
@@ -185,5 +187,17 @@ public class DetailFragment extends Fragment {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public void onListItemClick(Trailer[] mTrailers, int clickedItemIndex) {
+        Trailer trailer = mTrailers[clickedItemIndex];
+        String url = "https://www.youtube.com/watch?v=".concat(trailer.getKey());
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
